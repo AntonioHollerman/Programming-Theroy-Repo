@@ -9,7 +9,7 @@ namespace BaseClasses
     /// <summary>
     /// Represents a character's core attributes and behaviors in the game.
     /// </summary>
-    public class CharacterSheet : MonoBehaviour, ISavable
+    public abstract class CharacterSheet : MonoBehaviour, ISavable // INHERITANCE // ABSTRACTION
     {
         public int lvl; // Character's current level
         public bool IsALive { get; private set; } // True if the character is alive, false otherwise
@@ -20,11 +20,21 @@ namespace BaseClasses
         protected int BaseAtk; // Base attack power
         protected int BaseSpeed; // Base speed value
 
+        // ENCAPSULATION
         // Current stats for the character
         private int _hp;    // Current health points
         private int _mana;  // Current mana points
         private int _speed; // Current speed
         private int _def = 0; // Current defense, default is 0
+        
+        /// <summary>
+        /// Gets the transform of the character's game object (for saving purposes).
+        /// </summary>
+        /// <returns>The transform of the character's game object.</returns>
+        Transform ISavable.GetGameObject() // POLYMORPHISM
+        {
+            return transform; // Return the character's transform for saving
+        }
         public int Atk { get; private set; }   // Current attack power
 
         // Durations for various temporary statuses
@@ -401,15 +411,6 @@ namespace BaseClasses
         {
             // Update stun duration to the maximum of the current or new duration
             _stunDuration = duration > _stunDuration ? duration : _stunDuration;
-        }
-
-        /// <summary>
-        /// Gets the transform of the character's game object (for saving purposes).
-        /// </summary>
-        /// <returns>The transform of the character's game object.</returns>
-        Transform ISavable.GetGameObject()
-        {
-            return transform; // Return the character's transform for saving
         }
     }
 }
